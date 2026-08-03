@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private AudioManager audioManager;
     private static final int PERMISSION_REQUEST_CODE = 123;
 
-    // Receiver to catch "Reject" action from notification even if app was closed
     private final BroadcastReceiver syncReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Wake up screen and show over lockscreen
         handleWindowFlags();
 
         setContentView(R.layout.activity_main);
@@ -58,13 +56,16 @@ public class MainActivity extends AppCompatActivity {
         setupWebView();
         checkAndRequestPermissions();
         
-        registerReceiver(syncReceiver, new IntentFilter("com.konolive.SYNC_WEB"), Context.RECEIVER_NOT_EXPORTED);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(syncReceiver, new IntentFilter("com.konolive.SYNC_WEB"), Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(syncReceiver, new IntentFilter("com.konolive.SYNC_WEB"));
+        }
         
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 splashContainer.setVisibility(View.GONE);
-                // Check if we were opened by an "Accept" action
                 handleIntentExtras(getIntent());
             }
         });
@@ -109,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setAllowFileAccess(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -156,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     audioManager.setSpeakerphoneOn(true);
                 } else {
                     audioManager.setMode(AudioManager.MODE_NORMAL);
+                    audioManager.setSpeakerphoneOn(false);
                 }
             });
         }
@@ -186,7 +190,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(syncReceiver);
+        try {
+            unregisterReceiver(syncReceiver);
+        } catch (Exception e) {
+            // Already unregistered
+        }
         super.onDestroy();
     }
 }

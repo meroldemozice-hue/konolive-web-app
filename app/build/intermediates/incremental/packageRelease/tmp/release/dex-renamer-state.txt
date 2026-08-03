@@ -1,4 +1,4 @@
-#Mon Aug 03 21:27:06 UTC 2026
+#Mon Aug 03 22:23:19 UTC 2026
 base.0=/home/ubuntu/MyWebViewApp/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
