@@ -8,17 +8,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Force screen wake and unlock
         unlockScreen();
 
         setContentView(R.layout.activity_main);
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         splashContainer = findViewById(R.id.splash_container);
         
         setupWebView();
-        checkAndRequestPermissions();
+        checkAndRequestAllPermissions();
         
         IntentFilter filter = new IntentFilter("com.konolive.SYNC_WEB");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -90,40 +93,24 @@ public class MainActivity extends AppCompatActivity {
                                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         
-        // Acquire wake lock to ensure screen stays on during call
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (pm != null) {
             wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Konolive:CallWakeLock");
-            wakeLock.acquire(10 * 60 * 1000L); // 10 minutes max
+            if (!wakeLock.isHeld()) {
+                wakeLock.acquire(10 * 60 * 1000L);
+            }
         }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        unlockScreen();
-        handleIntentExtras(intent);
-    }
-
-    private void handleIntentExtras(Intent intent) {
-        if (intent != null && "accept".equals(intent.getStringExtra("call_action"))) {
-            syncActionWithWeb("accept");
-        }
-    }
-
-    private void syncActionWithWeb(String action) {
-        String js = "javascript:if(window.onNativeCallSync){ window.onNativeCallSync('" + action + "'); }";
-        webView.evaluateJavascript(js, null);
     }
 
     private void setupWebView() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setGeolocationEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowFileAccess(true);
+        settings.setDatabaseEnabled(true);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -136,7 +123,58 @@ public class MainActivity extends AppCompatActivity {
             public void onPermissionRequest(final PermissionRequest request) {
                 MainActivity.this.runOnUiThread(() -> request.grant(request.getResources()));
             }
+
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                callback.invoke(origin, true, false);
+            }
         });
+    }
+
+    private void checkAndRequestAllPermissions() {
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.CAMERA);
+        permissions.add(Manifest.permission.RECORD_AUDIO);
+        permissions.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
+        permissions.add(Manifest.permission.VIBRATE);
+        permissions.add(Manifest.permission.WAKE_LOCK);
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissions.add(Manifest.permission.READ_PHONE_STATE);
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        }
+
+        List<String> needed = new ArrayList<>();
+        for (String p : permissions) {
+            if (ContextCompat.checkSelfPermission(this, p) != PackageManager.PERMISSION_GRANTED) {
+                needed.add(p);
+            }
+        }
+        
+        if (!needed.isEmpty()) {
+            ActivityCompat.requestPermissions(this, needed.toArray(new String[0]), PERMISSION_REQUEST_CODE);
+        }
+
+        // Request System Alert Window (Overlay) permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+        }
+
+        // Request Ignore Battery Optimizations
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            }
+        }
     }
 
     public class WebAppInterface {
@@ -145,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void onIncomingCall(String callerName) {
-            // This is called from the web app when a call is detected (e.g. via Supabase/Socket)
             Intent serviceIntent = new Intent(mContext, CallService.class);
             serviceIntent.setAction("START_CALL");
             serviceIntent.putExtra("CALLER_NAME", callerName);
@@ -154,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 mContext.startService(serviceIntent);
             }
+            unlockScreen();
         }
 
         @JavascriptInterface
@@ -181,28 +219,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkAndRequestPermissions() {
-        List<String> permissions = new ArrayList<>();
-        permissions.add(Manifest.permission.CAMERA);
-        permissions.add(Manifest.permission.RECORD_AUDIO);
-        permissions.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
-        permissions.add(Manifest.permission.VIBRATE);
-        permissions.add(Manifest.permission.WAKE_LOCK);
-        permissions.add(Manifest.permission.DISABLE_KEYGUARD);
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions.add(Manifest.permission.POST_NOTIFICATIONS);
-        }
+    private void syncActionWithWeb(String action) {
+        runOnUiThread(() -> {
+            String js = "javascript:if(window.onNativeCallSync){ window.onNativeCallSync('" + action + "'); }";
+            webView.evaluateJavascript(js, null);
+        });
+    }
 
-        List<String> needed = new ArrayList<>();
-        for (String p : permissions) {
-            if (ContextCompat.checkSelfPermission(this, p) != PackageManager.PERMISSION_GRANTED) {
-                needed.add(p);
-            }
+    private void handleIntentExtras(Intent intent) {
+        if (intent != null && "accept".equals(intent.getStringExtra("call_action"))) {
+            syncActionWithWeb("accept");
         }
-        if (!needed.isEmpty()) {
-            ActivityCompat.requestPermissions(this, needed.toArray(new String[0]), PERMISSION_REQUEST_CODE);
-        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        unlockScreen();
+        handleIntentExtras(intent);
     }
 
     @Override
