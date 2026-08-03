@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.PermissionRequest;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private View splashContainer;
     private AudioManager audioManager;
     private static final int PERMISSION_REQUEST_CODE = 123;
+    private PowerManager.WakeLock wakeLock;
 
     private final BroadcastReceiver syncReceiver = new BroadcastReceiver() {
         @Override
@@ -45,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        handleWindowFlags();
+        // Force screen wake and unlock
+        unlockScreen();
 
         setContentView(R.layout.activity_main);
         
@@ -56,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
         setupWebView();
         checkAndRequestPermissions();
         
+        IntentFilter filter = new IntentFilter("com.konolive.SYNC_WEB");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(syncReceiver, new IntentFilter("com.konolive.SYNC_WEB"), Context.RECEIVER_NOT_EXPORTED);
+            registerReceiver(syncReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
         } else {
-            registerReceiver(syncReceiver, new IntentFilter("com.konolive.SYNC_WEB"));
+            registerReceiver(syncReceiver, filter);
         }
         
         webView.setWebViewClient(new WebViewClient() {
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("https://meroldemozice-hue.github.io/miaoda-react-admin/");
     }
 
-    private void handleWindowFlags() {
+    private void unlockScreen() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
@@ -85,11 +89,20 @@ public class MainActivity extends AppCompatActivity {
                                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        
+        // Acquire wake lock to ensure screen stays on during call
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (pm != null) {
+            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Konolive:CallWakeLock");
+            wakeLock.acquire(10 * 60 * 1000L); // 10 minutes max
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
+        unlockScreen();
         handleIntentExtras(intent);
     }
 
@@ -111,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowFileAccess(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -133,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void onIncomingCall(String callerName) {
+            // This is called from the web app when a call is detected (e.g. via Supabase/Socket)
             Intent serviceIntent = new Intent(mContext, CallService.class);
             serviceIntent.setAction("START_CALL");
             serviceIntent.putExtra("CALLER_NAME", callerName);
@@ -149,6 +162,9 @@ public class MainActivity extends AppCompatActivity {
             serviceIntent.setAction("STOP_CALL");
             mContext.startService(serviceIntent);
             audioManager.setMode(AudioManager.MODE_NORMAL);
+            if (wakeLock != null && wakeLock.isHeld()) {
+                wakeLock.release();
+            }
         }
         
         @JavascriptInterface
@@ -172,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         permissions.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
         permissions.add(Manifest.permission.VIBRATE);
         permissions.add(Manifest.permission.WAKE_LOCK);
+        permissions.add(Manifest.permission.DISABLE_KEYGUARD);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS);
@@ -192,8 +209,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         try {
             unregisterReceiver(syncReceiver);
-        } catch (Exception e) {
-            // Already unregistered
+        } catch (Exception e) {}
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
         }
         super.onDestroy();
     }
