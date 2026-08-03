@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-74:12
-INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-74:12
-INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-74:12
-INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-74:12
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-100:12
+INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-100:12
+INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-100:12
+INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:2:1-100:12
 MERGED from [com.google.android.material:material:1.11.0] /home/ubuntu/.gradle/caches/transforms-3/6fe221ef3627acc9045c8968b4817037/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/ubuntu/.gradle/caches/transforms-3/f570898b3a8103785762393a2a8adf27/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /home/ubuntu/.gradle/caches/transforms-3/2213277e0f5a09e2874d3c9a9dbb8d87/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
@@ -94,57 +94,113 @@ uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
 ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:18:5-85
 	android:name
 		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:18:22-82
-uses-permission#android.permission.WAKE_LOCK
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:21:5-68
+uses-permission#android.permission.READ_CONTACTS
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:21:5-72
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:21:22-65
-uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:22:5-77
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:21:22-69
+uses-permission#android.permission.WRITE_CONTACTS
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:22:5-73
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:22:22-74
-uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:23:5-77
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:22:22-70
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:23:5-75
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:23:22-74
-uses-permission#android.permission.FOREGROUND_SERVICE_PHONE_CALL
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:24:5-88
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:23:22-72
+uses-permission#android.permission.READ_CALL_LOG
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:24:5-72
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:24:22-85
-uses-permission#android.permission.FOREGROUND_SERVICE_LOCATION
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:25:5-86
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:24:22-69
+uses-permission#android.permission.WRITE_CALL_LOG
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:25:5-73
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:25:22-83
-uses-permission#android.permission.USE_FULL_SCREEN_INTENT
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:26:5-81
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:25:22-70
+uses-permission#android.permission.ANSWER_PHONE_CALLS
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:26:5-77
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:26:22-78
-uses-permission#android.permission.DISABLE_KEYGUARD
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:26:22-74
+uses-permission#android.permission.MANAGE_OWN_CALLS
 ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:27:5-75
 	android:name
 		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:27:22-72
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:30:5-80
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:30:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:31:5-81
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:31:22-78
+uses-permission#android.permission.READ_MEDIA_IMAGES
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:32:5-76
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:32:22-73
+uses-permission#android.permission.READ_MEDIA_VIDEO
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:33:5-75
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:33:22-72
+uses-permission#android.permission.READ_MEDIA_AUDIO
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:34:5-75
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:34:22-72
+uses-permission#android.permission.BLUETOOTH
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:37:5-68
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:37:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:38:5-74
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:38:22-71
+uses-permission#android.permission.BLUETOOTH_CONNECT
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:39:5-76
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:39:22-73
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:42:5-68
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:42:22-65
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:43:5-77
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:43:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:44:5-77
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:44:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_PHONE_CALL
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:45:5-88
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:45:22-85
+uses-permission#android.permission.FOREGROUND_SERVICE_LOCATION
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:46:5-86
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:46:22-83
+uses-permission#android.permission.USE_FULL_SCREEN_INTENT
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:47:5-81
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:47:22-78
+uses-permission#android.permission.DISABLE_KEYGUARD
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:48:5-75
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:48:22-72
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:28:5-78
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:49:5-78
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:28:22-75
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:49:22-75
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:29:5-81
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:50:5-81
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:29:22-78
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:50:22-78
 uses-permission#android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:30:5-95
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:51:5-95
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:30:22-92
-uses-permission#android.permission.READ_PHONE_STATE
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:31:5-75
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:51:22-92
+uses-permission#android.permission.SCHEDULE_EXACT_ALARM
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:52:5-79
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:31:22-72
-uses-permission#android.permission.MANAGE_OWN_CALLS
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:32:5-75
-	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:32:22-72
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:52:22-76
 application
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:34:5-72:19
-INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:34:5-72:19
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:54:5-98:19
+INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:54:5-98:19
 MERGED from [com.google.android.material:material:1.11.0] /home/ubuntu/.gradle/caches/transforms-3/6fe221ef3627acc9045c8968b4817037/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] /home/ubuntu/.gradle/caches/transforms-3/6fe221ef3627acc9045c8968b4817037/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/ubuntu/.gradle/caches/transforms-3/f570898b3a8103785762393a2a8adf27/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -166,71 +222,83 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/ubuntu/.gradle/caches
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] /home/ubuntu/.gradle/caches/transforms-3/69031d9de34e6ae4e80492f7a424b6d1/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:39:9-35
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:59:9-35
 	android:label
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:37:9-33
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:57:9-33
 	android:roundIcon
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:38:9-48
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:58:9-48
 	android:icon
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:36:9-43
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:56:9-43
 	android:allowBackup
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:35:9-35
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:55:9-35
 	android:theme
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:40:9-59
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:60:9-59
 	android:usesCleartextTraffic
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:41:9-44
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:61:9-44
 activity#com.example.webview.MainActivity
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:43:9-54:20
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:63:9-74:20
 	android:turnScreenOn
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:48:13-40
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:68:13-40
 	android:showWhenLocked
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:47:13-42
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:67:13-42
 	android:launchMode
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:49:13-43
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:69:13-43
 	android:exported
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:45:13-36
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:65:13-36
 	android:configChanges
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:46:13-74
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:66:13-74
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:44:13-41
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:64:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:50:13-53:29
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:70:13-73:29
 action#android.intent.action.MAIN
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:51:17-69
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:71:17-69
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:51:25-66
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:71:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:52:17-77
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:72:17-77
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:52:27-74
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:72:27-74
 service#com.example.webview.CallService
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:56:9-60:66
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:76:9-80:66
 	android:enabled
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:58:13-35
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:78:13-35
 	android:exported
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:59:13-37
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:79:13-37
 	android:foregroundServiceType
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:60:13-63
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:80:13-63
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:57:13-40
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:77:13-40
 receiver#com.example.webview.CallActionReceiver
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:62:9-70:20
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:82:9-90:20
 	android:enabled
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:64:13-35
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:84:13-35
 	android:exported
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:65:13-37
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:85:13-37
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:63:13-47
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:83:13-47
 intent-filter#action:name:com.konolive.ACTION_ACCEPT+action:name:com.konolive.ACTION_REJECT
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:66:13-69:29
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:86:13-89:29
 action#com.konolive.ACTION_ACCEPT
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:67:17-69
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:87:17-69
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:67:25-66
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:87:25-66
 action#com.konolive.ACTION_REJECT
-ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:68:17-69
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:88:17-69
 	android:name
-		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:68:25-66
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:88:25-66
+receiver#com.example.webview.BootReceiver
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:92:9-96:20
+	android:exported
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:92:48-71
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:92:19-47
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:93:13-95:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:94:17-79
+	android:name
+		ADDED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml:94:25-76
 uses-sdk
 INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/ubuntu/MyWebViewApp/app/src/main/AndroidManifest.xml

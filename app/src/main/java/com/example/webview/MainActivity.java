@@ -22,7 +22,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private View splashContainer;
     private AudioManager audioManager;
-    private static final int PERMISSION_REQUEST_CODE = 123;
+    private static final int PERMISSION_REQUEST_CODE = 999;
     private PowerManager.WakeLock wakeLock;
 
     private final BroadcastReceiver syncReceiver = new BroadcastReceiver() {
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         splashContainer = findViewById(R.id.splash_container);
         
         setupWebView();
-        checkAndRequestAllPermissions();
+        requestWhatsAppPermissions();
         
         IntentFilter filter = new IntentFilter("com.konolive.SYNC_WEB");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -95,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
         
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (pm != null) {
-            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Konolive:CallWakeLock");
+            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Konolive:UltraWakeLock");
             if (!wakeLock.isHeld()) {
-                wakeLock.acquire(10 * 60 * 1000L);
+                wakeLock.acquire(15 * 60 * 1000L); // 15 mins
             }
         }
     }
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowFileAccess(true);
         settings.setDatabaseEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPermissionRequest(final PermissionRequest request) {
                 MainActivity.this.runOnUiThread(() -> request.grant(request.getResources()));
             }
-
             @Override
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
                 callback.invoke(origin, true, false);
@@ -131,23 +130,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkAndRequestAllPermissions() {
+    private void requestWhatsAppPermissions() {
         List<String> permissions = new ArrayList<>();
+        // Basic Hardware
         permissions.add(Manifest.permission.CAMERA);
         permissions.add(Manifest.permission.RECORD_AUDIO);
         permissions.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
         permissions.add(Manifest.permission.VIBRATE);
         permissions.add(Manifest.permission.WAKE_LOCK);
+        
+        // Location
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        
+        // Contacts & Phone
+        permissions.add(Manifest.permission.READ_CONTACTS);
+        permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_PHONE_STATE);
         
+        // Storage
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.READ_MEDIA_IMAGES);
+            permissions.add(Manifest.permission.READ_MEDIA_VIDEO);
+            permissions.add(Manifest.permission.READ_MEDIA_AUDIO);
             permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+        } else {
+            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+
+        // Bluetooth
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
         }
 
         List<String> needed = new ArrayList<>();
@@ -161,13 +175,20 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, needed.toArray(new String[0]), PERMISSION_REQUEST_CODE);
         }
 
-        // Request System Alert Window (Overlay) permission
+        // Background Location (Needs separate request for Android 10+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Background location must be requested after fine location is granted
+            }
+        }
+
+        // System Overlay
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
             startActivity(intent);
         }
 
-        // Request Ignore Battery Optimizations
+        // Battery Optimizations
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
             if (pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())) {
