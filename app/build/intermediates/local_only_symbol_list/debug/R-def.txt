@@ -1,0 +1,9 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+drawable splash_image
+id splash_screen
+id webview
+layout activity_main
+mipmap ic_launcher
