@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Konolive</string>
+    <string name="title_activity_main">Konolive</string>
+    <string name="package_name">com.konolive.app</string>
+    <string name="custom_url_scheme">com.konolive.app</string>
+</resources>

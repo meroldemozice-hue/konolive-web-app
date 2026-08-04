@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#111827">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+xml/callerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appel entrant..."
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Konolive Vidéo"
+            android:textColor="#9CA3AF"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="64dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnReject"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp"
+            android:backgroundTint="#EF4444"
+            android:textColor="#FFFFFF"
+            android:text="Raccrocher"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:stateListAnimator="@null"/>
+
+        <Button
+            android:id="@+id/btnAccept"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp"
+            android:backgroundTint="#22C55E"
+            android:textColor="#FFFFFF"
+            android:text="Décrocher"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
+
+</RelativeLayout>
