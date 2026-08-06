@@ -3,9 +3,9 @@ import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import path from "path";
 
-// Déployé sur Vercel à la racine "/"
+// Déployé sur GitHub Pages
 export default defineConfig({
-  base: "/",
+  base: "/konolive-web-app/",
   plugins: [
     react(),
     svgr({
